@@ -58,15 +58,31 @@ function gitHubCard(userDataObj) {
   const profilePic = document.createElement('img');
   const cardInfo = document.createElement('div');
   const cardHeader = document.createElement('h3');
+  const userName = document.createElement('p');
+  const locationText = document.createElement('p');
+  const profileText = document.createElement('p');
+  const profileLink = document.createElement('a');
 
   profilePic.src = userDataObj.avatar_url;
   cardInfo.classList.add('card-info');
   cardHeader.classList.add("name");
   cardHeader.textContent = userDataObj.name;
+  userName.classList.add('username');
+  userName.textContent = userDataObj.login;
+  locationText.textContent = `Location: ${userDataObj.location}`
+  profileLink.href = userDataObj.html_url;
+  profileLink.textContent = userDataObj.html_url;
+  profileText.textContent = `Profile: ${profileLink}`;
+
+
 
   cardInfo.appendChild(cardHeader);
+  cardInfo.appendChild(userName);
+  cardInfo.appendChild(locationText);
+  cardInfo.appendChild(profileText);
   cardsSection.appendChild(profilePic);
   cardsSection.appendChild(cardInfo);
+  
 }
 
 axios.get('https://api.github.com/users/danieltantonio')
