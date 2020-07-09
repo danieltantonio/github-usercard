@@ -3,7 +3,10 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-
+axios.get('https://api.github.com/users/danieltantonio')
+  .then(res => {
+    console.log(res)
+  }).catch(err => console.log(err));
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -49,6 +52,29 @@ const followersArray = [];
       </div>
     </div>
 */
+
+function gitHubCard(userDataObj) {
+  const cardsSection = document.querySelector('.cards');
+  const profilePic = document.createElement('img');
+  const cardInfo = document.createElement('div');
+  const cardHeader = document.createElement('h3');
+
+  profilePic.src = userDataObj.avatar_url;
+  cardInfo.classList.add('card-info');
+  cardHeader.classList.add("name");
+  cardHeader.textContent = userDataObj.name;
+
+  cardInfo.appendChild(cardHeader);
+  cardsSection.appendChild(profilePic);
+  cardsSection.appendChild(cardInfo);
+}
+
+axios.get('https://api.github.com/users/danieltantonio')
+  .then(res => {
+    gitHubCard(res.data);
+  }).catch(err => {
+    console.log(err);
+});
 
 /*
   List of LS Instructors Github username's:
