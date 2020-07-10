@@ -3,7 +3,7 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-axios.get('https://api.github.com/users/danieltantonio')
+axios.get('https://api.github.com/users/danieltantonio/followers')
   .then(res => {
     console.log(res)
   }).catch(err => console.log(err));
@@ -31,7 +31,7 @@ axios.get('https://api.github.com/users/danieltantonio')
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+// const followersArray = ['avawing', 'OrlandoDavila', 'jaketorrez', 'sami-alaloosi', 'emcleary'];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -55,6 +55,7 @@ const followersArray = [];
 
 function gitHubCard(userDataObj) {
   const cardsSection = document.querySelector('.cards');
+  const card = document.createElement('div');
   const profilePic = document.createElement('img');
   const cardInfo = document.createElement('div');
   const cardHeader = document.createElement('h3');
@@ -62,7 +63,11 @@ function gitHubCard(userDataObj) {
   const locationText = document.createElement('p');
   const profileText = document.createElement('p');
   const profileLink = document.createElement('a');
+  const followersText = document.createElement('p');
+  const followingText = document.createElement('p');
+  const bioText = document.createElement('p');
 
+  card.classList.add('card');
   profilePic.src = userDataObj.avatar_url;
   cardInfo.classList.add('card-info');
   cardHeader.classList.add("name");
@@ -72,17 +77,22 @@ function gitHubCard(userDataObj) {
   locationText.textContent = `Location: ${userDataObj.location}`
   profileLink.href = userDataObj.html_url;
   profileLink.textContent = userDataObj.html_url;
-  profileText.textContent = `Profile: ${profileLink}`;
-
-
+  profileText.textContent = `Profile: `;
+  profileText.appendChild(profileLink);
+  followersText.textContent = `Followers: ${userDataObj.followers}`;
+  followingText.textContent = `Following: ${userDataObj.following}`;
+  bioText.textContent = `Bio: ${userDataObj.bio}`;
 
   cardInfo.appendChild(cardHeader);
   cardInfo.appendChild(userName);
   cardInfo.appendChild(locationText);
   cardInfo.appendChild(profileText);
-  cardsSection.appendChild(profilePic);
-  cardsSection.appendChild(cardInfo);
-  
+  cardInfo.appendChild(followersText);
+  cardInfo.appendChild(followingText);
+  cardInfo.appendChild(bioText);
+  card.appendChild(profilePic);
+  card.appendChild(cardInfo);
+  cardsSection.appendChild(card);
 }
 
 axios.get('https://api.github.com/users/danieltantonio')
@@ -91,6 +101,27 @@ axios.get('https://api.github.com/users/danieltantonio')
   }).catch(err => {
     console.log(err);
 });
+
+// followersArray.forEach(user => {
+//   axios.get(`https://api.github.com/users/${user}`)
+//   .then(res => {
+//     gitHubCard(res.data);
+//   }).catch(err => {
+//     console.log(err);
+//   });
+// });
+
+
+//// STRETCH ////
+axios.get('https://api.github.com/users/danieltantonio/followers')
+  .then(res => {
+    res.data.forEach(user => {
+      gitHubCard(user);
+    });
+  })
+  .catch(err => {
+    console.log(err);
+  });
 
 /*
   List of LS Instructors Github username's:
